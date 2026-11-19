@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Po Speech Coach Documentation</title>
+  <meta name="description" content="How to understand and use Po, the speech coach for iPhone.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="icon" href="images/po-app-icon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
+  <style>
+    :root {
+      --theme-color: #8A2437;           /* Po's brand maroon */
+      --po-paper: #F7F5EF;              /* Po's page color */
+      --po-soft: #F3E0E3;               /* light maroon for callouts */
+      --po-ink-2: #666760;
+    }
+    body { color: #2b2b28; }
+    .sidebar { background: var(--po-paper); }
+    .sidebar-nav > ul > li > p,
+    .sidebar-nav > ul > li > strong { font-weight: 700; color: #2b2b28; margin-top: 18px; }
+    .sidebar ul li a { color: #3d3d39; }
+    .sidebar .group-label { color: #3d3d39; cursor: pointer; font-size: 14px; line-height: 2; }
+    .sidebar .group-label:hover { text-decoration: underline; }
+    .sidebar ul li.active > a { color: var(--theme-color); font-weight: 600; }
+    .sidebar .app-name-link img { max-width: 64px; }
+    section.cover { background: var(--po-paper) !important; }
+    section.cover .cover-main > p:last-child a { border-radius: 22px; }
+    section.cover .cover-main > p:last-child a:last-child { background: var(--theme-color); color: #fff; }
+    section.cover img { max-width: 180px; }
+
+    /* Screenshots: phone-sized, lined up with the step text, with a soft frame */
+    .markdown-section img { max-width: min(300px, 100%); border-radius: 18px; border: 1px solid #e3e1da;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06); margin: 8px 0 4px; }
+    .markdown-section img.icon, .markdown-section img[src*="po-mascot"] { border: 0; box-shadow: none; }
+
+    /* Audience badge at the top of each page */
+    .audience { display: inline-block; background: var(--po-soft); color: var(--theme-color);
+      border-radius: 999px; padding: 2px 12px; font-size: .85em; font-weight: 600; margin-bottom: 4px; }
+
+    /* Docsify callouts: "!>" renders as p.tip (a warning, maroon), "?>" as p.warn (a note, neutral) */
+    .markdown-section p.tip { background: var(--po-soft); border-left: 4px solid var(--theme-color); border-radius: 4px; }
+    .markdown-section p.tip:before { background-color: var(--theme-color); }
+    .markdown-section p.warn { background: var(--po-paper); border-left: 4px solid #c9c6bb; border-radius: 4px; }
+
+    /* Heading levels: page title > section (line under it) > subsection (maroon, smaller) */
+    .markdown-section h1 { font-size: 2.1rem; margin-bottom: .4rem; }
+    .markdown-section h2 { font-size: 1.55rem; margin-top: 2.6rem; padding-bottom: .35rem;
+      border-bottom: 1px solid #e3e1da; }
+    .markdown-section h3 { font-size: 1.2rem; margin-top: 1.9rem; color: var(--theme-color); }
+    .markdown-section h2 + h3 { margin-top: 1.2rem; }
+
+    .markdown-section table { display: table; width: 100%; }
+    .markdown-section th { background: var(--po-paper); }
+    .markdown-section kbd { border: 1px solid #ccc; border-radius: 4px; padding: 0 4px; }
+  </style>
+</head>
+<body>
+  <div id="app">Loading the Po documentation…</div>
+  <script>
+    window.$docsify = {
+      name: 'Po Speech Coach Docs',
+      logo: 'images/po-app-icon.png',
+      repo: '',
+      coverpage: true,
+      onlyCover: false,
+      loadSidebar: true,
+      subMaxLevel: 2,
+      auto2top: true,
+      maxLevel: 3,
+      search: {
+        placeholder: 'Search the docs',
+        noData: 'No results. Try a different word.',
+        depth: 3
+      },
+      plugins: [
+        // Part 2 group labels in the sidebar (Getting Started, Recording, ...) are plain text
+        // in _sidebar.md. Make each one open the first page in its group. A span, not a link,
+        // so it doesn't change the page title, the highlighted page, or Previous/Next.
+        function (hook) {
+          hook.doneEach(function () {
+            document.querySelectorAll('.sidebar-nav li').forEach(function (li) {
+              var text = li.firstChild, list = li.querySelector(':scope > ul');
+              if (!list || !text || text.nodeType !== 3 || !text.textContent.trim()) return;
+              var first = list.querySelector('a');
+              if (!first) return;
+              var label = document.createElement('span');
+              label.className = 'group-label';
+              label.textContent = text.textContent.trim();
+              label.setAttribute('role', 'link');
+              label.tabIndex = 0;
+              var go = function () { location.hash = first.getAttribute('href'); };
+              label.addEventListener('click', go);
+              label.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+              li.replaceChild(label, text);
+            });
+          });
+        }
+      ],
+      pagination: {
+        previousText: 'Previous',
+        nextText: 'Next',
+        crossChapter: true,
+        crossChapterText: true
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/zoom-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2.10.1/dist/docsify-pagination.min.js"></script>
+</body>
+</html>
